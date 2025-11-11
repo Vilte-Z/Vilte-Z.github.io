@@ -1,0 +1,235 @@
+h1 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #1b1b1b;
+}
+
+h2 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #222;
+}
+
+h3 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #333;
+}
+
+p {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #555;
+  letter-spacing: 0.01em;
+}
+
+/* links */
+a {
+  color: #ff61c0;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+a:hover {
+  color: #ea58b0;
+  text-shadow: 0 1px 5px #9b3b75;
+}
+
+a:active {
+  color: #9b3b75;
+}
+
+/* buttons */
+button,
+.btn {
+  background: #ff61c0;
+  color: #ffeaf8;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+
+}
+
+button:hover,
+.btn:hover {
+  background: #d951a3;
+  transform: translateY(-2px);
+}
+
+button:active,
+.btn:active {
+  background: #cd4d9a;
+  transform: translateY(1px);
+}
+
+
+:root {
+  --space-s: 1rem;
+  --space-m: 2rem;
+  --space-l: 4rem;
+  --surface-bg: #ffeaf8;
+  --surface-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  --surface-radius: 12px;
+}
+
+section {
+  padding: var(--space-l) 0;
+  background: var(--surface-bg);
+}
+
+.box, .card, .service-item {
+  padding: var(--space-m);
+  border-radius: var(--surface-radius);
+  background: #fdf5fa;
+  box-shadow: var(--surface-shadow);
+  transition: transform 0.3s ease;
+}
+
+.box:hover, .card:hover, .service-item:hover {
+  transform: translateY(-5px);
+}
+
+/* Navbar */
+.header {
+  background-color: #ff61c0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.navmenu a {
+  color: #fcf3f9;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.navmenu a:hover {
+  color: #fde8fa;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Back-to-top button */
+.scroll-top {
+  background-color: #ff61c0;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-top:hover {
+  background-color: #ff61c0;
+  transform: scale(1.1);
+}
+
+/*optional task */
+ul.custom-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.custom-list li {
+  position: relative;
+  padding-left: 1.6em;
+  margin-bottom: 0.6em;
+}
+
+ul.custom-list li::before {
+  content: "◆";
+  position: absolute;
+  left: 0;
+  color: #ff61c0;
+  font-size: 0.9em;
+  top: 0.2em;
+}
+
+/* Nested unordered list */
+ul.custom-list ul {
+  margin-top: 0.4em;
+  margin-left: 1.2em;
+  list-style: none;
+}
+
+ul.custom-list ul li::before {
+  content: "➤";
+  color: #d951a3;
+}
+
+/* Ordered list  */
+ol.custom-counter {
+  counter-reset: item;
+  list-style: none;
+  padding-left: 0;
+}
+
+ol.custom-counter li {
+  counter-increment: item;
+  margin-bottom: 0.6em;
+  padding-left: 2em;
+  position: relative;
+}
+
+ol.custom-counter li::before {
+  content: counter(item) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ff61c0;
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* second task */
+
+table.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* Header row */
+table.custom-table thead {
+  background-color: #ff61c0;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+table.custom-table th,
+table.custom-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f3d2e4;
+}
+
+/* Zebra striping */
+table.custom-table tbody tr:nth-child(even) {
+  background-color: #fff3fa;
+}
+
+/* Row hover effect */
+table.custom-table tbody tr:hover {
+  background-color: #ffe0f2;
+}
+
+/* Alignments */
+table.custom-table th {
+  text-align: left;
+}
+
+table.custom-table td:last-child {
+  text-align: right;
+}
+
