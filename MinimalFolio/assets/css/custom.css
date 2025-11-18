@@ -1,3 +1,6 @@
+/* custom.css - Enhanced with animations and accessibility */
+
+/* ===== Base Typography ===== */
 h1 {
   font-family: "Times New Roman", Times, serif;
   font-size: 2.8rem;
@@ -29,7 +32,7 @@ p {
   letter-spacing: 0.01em;
 }
 
-/* links */
+/* ===== Links ===== */
 a {
   color: #ff61c0;
   font-weight: 600;
@@ -46,7 +49,7 @@ a:active {
   color: #9b3b75;
 }
 
-/* buttons */
+/* ===== Buttons ===== */
 button,
 .btn {
   background: #ff61c0;
@@ -56,13 +59,14 @@ button,
   border-radius: 6px;
   font-weight: 600;
   letter-spacing: 0.03em;
-
+  transition: all 0.3s ease;
 }
 
 button:hover,
 .btn:hover {
   background: #d951a3;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(217, 81, 163, 0.3);
 }
 
 button:active,
@@ -71,7 +75,7 @@ button:active,
   transform: translateY(1px);
 }
 
-
+/* ===== CSS Variables ===== */
 :root {
   --space-s: 1rem;
   --space-m: 2rem;
@@ -79,8 +83,11 @@ button:active,
   --surface-bg: #ffeaf8;
   --surface-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   --surface-radius: 12px;
+  --primary-color: #ff61c0;
+  --secondary-color: #d951a3;
 }
 
+/* ===== Sections & Layout ===== */
 section {
   padding: var(--space-l) 0;
   background: var(--surface-bg);
@@ -98,10 +105,22 @@ section {
   transform: translateY(-5px);
 }
 
-/* Navbar */
+/* ===== Header/Navigation ===== */
 .header {
-  background-color: #ff61c0;
+  background: linear-gradient(135deg, #ff61c0 0%, #ff8ad4 100%);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  animation: headerSlideDown 0.8s ease-out;
+}
+
+@keyframes headerSlideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .navmenu a {
@@ -109,6 +128,22 @@ section {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  position: relative;
+}
+
+.navmenu a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #fde8fa;
+  transition: width 0.3s ease;
+}
+
+.navmenu a:hover::after {
+  width: 100%;
 }
 
 .navmenu a:hover {
@@ -116,22 +151,36 @@ section {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* Back-to-top button */
+/* ===== Scroll Top Button ===== */
 .scroll-top {
   background-color: #ff61c0;
   border-radius: 50%;
   width: 44px;
   height: 44px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  transition: background 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
+  animation: bounce 2s infinite;
 }
 
 .scroll-top:hover {
   background-color: #ff61c0;
   transform: scale(1.1);
+  animation: none;
 }
 
-/*optional task */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* ===== Custom Lists ===== */
 ul.custom-list {
   list-style: none;
   padding-left: 0;
@@ -141,6 +190,7 @@ ul.custom-list li {
   position: relative;
   padding-left: 1.6em;
   margin-bottom: 0.6em;
+  animation: fadeInLeft 0.6s ease-out;
 }
 
 ul.custom-list li::before {
@@ -150,6 +200,7 @@ ul.custom-list li::before {
   color: #ff61c0;
   font-size: 0.9em;
   top: 0.2em;
+  animation: pulse 2s infinite;
 }
 
 /* Nested unordered list */
@@ -164,7 +215,7 @@ ul.custom-list ul li::before {
   color: #d951a3;
 }
 
-/* Ordered list  */
+/* Ordered list */
 ol.custom-counter {
   counter-reset: item;
   list-style: none;
@@ -176,6 +227,7 @@ ol.custom-counter li {
   margin-bottom: 0.6em;
   padding-left: 2em;
   position: relative;
+  animation: fadeInRight 0.6s ease-out;
 }
 
 ol.custom-counter li::before {
@@ -188,8 +240,7 @@ ol.custom-counter li::before {
   font-family: "Montserrat", sans-serif;
 }
 
-/* second task */
-
+/* ===== Custom Table ===== */
 table.custom-table {
   width: 100%;
   border-collapse: collapse;
@@ -198,11 +249,12 @@ table.custom-table {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  animation: fadeInUp 0.8s ease-out;
 }
 
 /* Header row */
 table.custom-table thead {
-  background-color: #ff61c0;
+  background: linear-gradient(135deg, #ff61c0 0%, #ff8ad4 100%);
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -212,6 +264,7 @@ table.custom-table th,
 table.custom-table td {
   padding: 12px 16px;
   border-bottom: 1px solid #f3d2e4;
+  transition: all 0.3s ease;
 }
 
 /* Zebra striping */
@@ -222,6 +275,7 @@ table.custom-table tbody tr:nth-child(even) {
 /* Row hover effect */
 table.custom-table tbody tr:hover {
   background-color: #ffe0f2;
+  transform: scale(1.02);
 }
 
 /* Alignments */
@@ -233,3 +287,289 @@ table.custom-table td:last-child {
   text-align: right;
 }
 
+/* ===== CUSTOM ANIMATIONS ===== */
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Left Animation */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Fade In Right Animation */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Floating Animation */
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+/* Rotate Animation */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== CSS-ONLY LOADER ===== */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--surface-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#preloader div {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  animation: loaderPulse 1.4s ease-in-out infinite both;
+}
+
+#preloader div:nth-child(1) { animation-delay: -0.32s; }
+#preloader div:nth-child(2) { animation-delay: -0.16s; }
+#preloader div:nth-child(3) { animation-delay: 0s; }
+
+@keyframes loaderPulse {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ===== ACCESSIBILITY: Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  #preloader div {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ===== OPTIONAL TASK: Advanced Features ===== */
+
+/* Animated Gradient Background */
+.animated-gradient {
+  background: linear-gradient(-45deg, #ff61c0, #ff8ad4, #b4e0ff, #a8e6cf);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Decorative CSS Shapes */
+.decorative-shapes {
+  position: relative;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.shape-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  animation: floating 6s ease-in-out infinite;
+}
+
+.shape-triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 86.6px solid var(--secondary-color);
+  animation: rotate 20s linear infinite;
+}
+
+.shape-square {
+  width: 80px;
+  height: 80px;
+  background: var(--primary-color);
+  animation: floating 8s ease-in-out infinite reverse;
+}
+
+/* Position shapes */
+.shape:nth-child(1) {
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.shape:nth-child(2) {
+  top: 60%;
+  right: 10%;
+  animation-delay: -2s;
+}
+
+.shape:nth-child(3) {
+  bottom: 20%;
+  left: 15%;
+  animation-delay: -4s;
+}
+
+/* Enhanced Portfolio Items */
+.portfolio-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--surface-radius);
+  transition: all 0.4s ease;
+}
+
+.portfolio-card .image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.portfolio-card img {
+  transition: transform 0.6s ease;
+}
+
+.portfolio-card:hover img {
+  transform: scale(1.1);
+}
+
+.portfolio-card .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 97, 192, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.portfolio-card:hover .overlay {
+  opacity: 1;
+}
+
+.portfolio-card .overlay-content a {
+  color: white;
+  font-size: 1.5rem;
+  margin: 0 10px;
+  transition: transform 0.3s ease;
+}
+
+.portfolio-card .overlay-content a:hover {
+  transform: scale(1.2);
+}
+
+/* Service Items Enhancement */
+.service-item {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.service-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.8s ease;
+}
+
+.service-item:hover::before {
+  left: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+  }
+  
+  section {
+    padding: var(--space-m) 0;
+  }
+  
+  .shape {
+    display: none; /* Hide decorative shapes on mobile */
+  }
+}
