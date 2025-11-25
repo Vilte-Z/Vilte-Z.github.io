@@ -367,7 +367,7 @@ table.custom-table td:last-child {
   }
 }
 
-/* ===== OPTIONAL TASK: Advanced Features ===== */
+
 
 /* Animated Gradient Background */
 .animated-gradient {
@@ -699,6 +699,132 @@ section {
   .mobile-nav-toggle {
     display: none !important;
   }
+}
+
+/* Contact Form Styles */
+.rating-title {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.rating-input {
+  text-align: center;
+}
+
+.form-results {
+  background: #fdf5fa;
+  padding: 2rem;
+  border-radius: var(--surface-radius);
+  box-shadow: var(--surface-shadow);
+  margin-top: 2rem;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3d2e4;
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.result-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.result-value {
+  color: #555;
+}
+
+.average-rating {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: var(--surface-radius);
+}
+
+.rating-red {
+  color: #dc3545;
+}
+
+.rating-orange {
+  color: #fd7e14;
+}
+
+.rating-green {
+  color: #198754;
+}
+
+/* Error Styles */
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  min-height: 1.25rem;
+}
+
+.form-input.error {
+  border-bottom-color: #dc3545 !important;
+}
+
+.form-input.valid {
+  border-bottom-color: #198754 !important;
+}
+
+/* Success Popup */
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 2rem;
+  border-radius: var(--surface-radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  text-align: center;
+  border: 3px solid #ff61c0;
+}
+
+.success-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
+.success-popup h3 {
+  color: #198754;
+  margin-bottom: 1rem;
+}
+
+.success-popup .btn {
+  margin-top: 1rem;
+}
+
+/* Disabled Button */
+.send-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.send-button:disabled:hover {
+  background: transparent;
+  color: var(--accent-color);
+  transform: none;
 }
 
 
