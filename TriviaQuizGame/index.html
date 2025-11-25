@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quiz Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Trivia Quiz Challenge</h1>
+            <p>Test your knowledge with these interesting questions!</p>
+        </div>
+        
+        <div class="quiz-body">
+            <!-- Start Screen -->
+            <div id="start-screen" class="screen">
+                <div class="question-container">
+                    <p class="question-text">Welcome to the Trivia Quiz! You'll be presented with 10 questions on various topics. Try to answer as many as you can correctly. Good luck!</p>
+                </div>
+                <div class="navigation">
+                    <button id="start-btn">Start Quiz</button>
+                </div>
+            </div>
+            
+            <!-- Question Screen -->
+            <div id="question-screen" class="screen hidden">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="question-container">
+                    <div class="question-number">Question <span id="current-question">1</span> of 10</div>
+                    <div class="question-text" id="question-text">Question text goes here</div>
+                </div>
+                
+                <div class="options-container" id="options-container">
+                    <!-- Options will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="feedback" id="feedback"></div>
+                
+                <div class="navigation">
+                    <button id="prev-btn" disabled>Previous</button>
+                    <button id="next-btn">Next Question</button>
+                </div>
+            </div>
+            
+            <!-- Results Screen -->
+            <div id="results-screen" class="screen hidden">
+                <div class="score-container">
+                    <h2>Quiz Completed!</h2>
+                    <p>Your final score: <span id="final-score">0</span> out of 10</p>
+                    <p id="performance-message">Performance message will appear here</p>
+                    <button id="restart-btn">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
