@@ -608,25 +608,42 @@
     <!-- Game Stats -->
     <div class="game-stats mb-4">
       <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <div class="stats-panel p-3 rounded">
-            <div class="row text-center">
-              <div class="col-6 col-md-4">
+            <!-- Current Game Stats -->
+            <div class="row text-center mb-3">
+              <div class="col-4">
                 <div class="stat-item">
                   <div class="stat-label">Moves</div>
                   <div id="move-count" class="stat-value">0</div>
                 </div>
               </div>
-              <div class="col-6 col-md-4">
+              <div class="col-4">
                 <div class="stat-item">
                   <div class="stat-label">Matches</div>
                   <div id="match-count" class="stat-value">0</div>
                 </div>
               </div>
-              <div class="col-12 col-md-4">
+              <div class="col-4">
                 <div class="stat-item">
                   <div class="stat-label">Time</div>
-                  <div id="timer" class="stat-value">0s</div>
+                  <div id="timer" class="stat-value">00:00</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Best Scores -->
+            <div class="row text-center">
+              <div class="col-6">
+                <div class="best-score-item">
+                  <div class="best-score-label">Best (Easy)</div>
+                  <div id="best-easy" class="best-score-value">--</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="best-score-item">
+                  <div class="best-score-label">Best (Hard)</div>
+                  <div id="best-hard" class="best-score-value">--</div>
                 </div>
               </div>
             </div>
@@ -634,6 +651,7 @@
         </div>
       </div>
     </div>
+
 
     <!-- Game Board -->
     <div class="game-board mb-4">

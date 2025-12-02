@@ -998,81 +998,107 @@ section {
   font-family: 'Montserrat', sans-serif;
 }
 
-/* Responsive Design for Memory Game */
-@media (max-width: 768px) {
-  .card-grid.easy {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+/* ===== Memory Game Card Styling ===== */
+.memory-card {
+    position: relative;
     width: 100%;
-    max-width: 400px;
-    height: 300px;
-    gap: 8px;
-    padding: 10px;
-  }
-  
-  .card-grid.hard {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    width: 100%;
-    max-width: 400px;
-    height: 500px;
-    gap: 8px;
-    padding: 10px;
-  }
-  
-  .game-controls .form-select {
-    max-width: 200px;
-  }
-  
-  .stat-value {
-    font-size: 1.5rem;
-  }
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
-@media (max-width: 576px) {
-  .card-grid.easy,
-  .card-grid.hard {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    height: 400px;
-  }
-  
-  .game-controls .row {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .game-controls .col-md-3 {
-    width: 100%;
-    max-width: 300px;
-    margin-bottom: 10px;
-  }
-  
-  .game-controls .d-flex {
-    justify-content: center;
-  }
-}
-
-/* Animation for card flipping */
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
+/* When card is flipped, rotate it to show the front */
 .memory-card.flipped {
     transform: rotateY(180deg);
 }
 
+/* When card is matched, it should stay flipped AND show the front */
 .memory-card.matched {
-    opacity: 0.7;
     cursor: default;
-    transform: rotateY(180deg) !important; /* Force them to stay flipped */
+    opacity: 0.9;
+    /* Force it to stay flipped */
+    transform: rotateY(180deg) !important;
 }
 
-/* Optional: Add a different style for matched cards */
-.memory-card.matched .card-front {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+/* Card front (shows the icon/image) */
+.card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    color: #ff61c0;
+    padding: 10px;
+    transform: rotateY(180deg); /* This is important! */
+}
+
+/* Card back (shows the question mark) */
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #4a4a4a 0%, #2c2c2c 100%);
     color: white;
+    /* No transform needed for back */
 }
 
+/* Alternative style for matched cards */
+.memory-card.matched .card-back {
+    background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+    opacity: 0.7;
+}
+
+
+/* Hover effect for card back */
+.card-back:hover {
+    background: linear-gradient(135deg, #5a5a5a 0%, #3c3c3c 100%);
+}
+
+/* Best Scores Styling */
+.best-score-item {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  margin: 5px 0;
+}
+
+.best-score-label {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.best-score-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #28a745;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Win message improvements */
+.win-message .alert {
+  animation: pulse 2s infinite;
+}
+
+/* Formatted timer */
+#timer {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+}
 

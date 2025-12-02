@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // ===== Contact Form JavaScript =====
+    // (Keep all your existing contact form code here - it remains unchanged)
     // Form elements
     const contactForm = document.getElementById('contact-form');
     const formResults = document.getElementById('form-results');
@@ -291,6 +292,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let matches = 0;
     let totalPairs = 0;
     let timerInterval = null;
+    let totalSeconds = 0;
+    let minutes = 0;
     let seconds = 0;
     let flippedCards = [];
     let canFlip = true;
@@ -307,8 +310,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const winMessage = document.getElementById('win-message');
     const finalMoves = document.getElementById('final-moves');
     const finalTime = document.getElementById('final-time');
+    const bestEasyDisplay = document.getElementById('best-easy');
+    const bestHardDisplay = document.getElementById('best-hard');
     
-    // Card data - at least 6 unique items (using Font Awesome icons)
+    // Card data
     const cardData = [
         { icon: 'bi bi-star-fill', name: 'star' },
         { icon: 'bi bi-heart-fill', name: 'heart' },
@@ -326,8 +331,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Difficulty configurations
     const difficultyConfigs = {
-        easy: { rows: 3, cols: 4, pairs: 6 },    // 4×3 grid (6 pairs from first 6 icons)
-        hard: { rows: 4, cols: 6, pairs: 12 }    // 6×4 grid (12 pairs - all icons)
+        easy: { rows: 3, cols: 4, pairs: 6 },
+        hard: { rows: 4, cols: 6, pairs: 12 }
+    };
+
+    // Storage keys
+    const STORAGE_KEYS = {
+        BEST_EASY: 'memoryGame_bestEasy',
+        BEST_HARD: 'memoryGame_bestHard'
     };
     
     // Initialize game
@@ -344,6 +355,8 @@ document.addEventListener('DOMContentLoaded', function() {
         moves = 0;
         matches = 0;
         totalPairs = config.pairs;
+        totalSeconds = 0;
+        minutes = 0;
         seconds = 0;
         flippedCards = [];
         canFlip = true;
@@ -358,9 +371,12 @@ document.addEventListener('DOMContentLoaded', function() {
             timerInterval = null;
         }
         
+        // Reset timer display
+        timerDisplay.textContent = '00:00';
+        
         // Create card pairs
         const selectedIcons = cardData.slice(0, config.pairs);
-        const cards = [...selectedIcons, ...selectedIcons]; // Duplicate for pairs
+        const cards = [...selectedIcons, ...selectedIcons];
         
         // Shuffle cards
         shuffleArray(cards);
@@ -390,13 +406,20 @@ document.addEventListener('DOMContentLoaded', function() {
         restartButton.disabled = true;
     }
     
-    // Shuffle array using Fisher-Yates algorithm
+    // Shuffle array
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
+    }
+    
+    // Format time as MM:SS
+    function formatTime(totalSeconds) {
+        const mins = Math.floor(totalSeconds / 60);
+        const secs = totalSeconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
     
     // Start the game
@@ -406,15 +429,15 @@ document.addEventListener('DOMContentLoaded', function() {
         gameStarted = true;
         moves = 0;
         matches = 0;
-        seconds = 0;
+        totalSeconds = 0;
         flippedCards = [];
         canFlip = true;
         
         // Start timer
         if (timerInterval) clearInterval(timerInterval);
         timerInterval = setInterval(() => {
-            seconds++;
-            timerDisplay.textContent = seconds + 's';
+            totalSeconds++;
+            timerDisplay.textContent = formatTime(totalSeconds);
         }, 1000);
         
         // Update UI
@@ -433,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         setTimeout(() => {
             allCards.forEach(card => card.classList.remove('flipped'));
-        }, 2000); // Show for 2 seconds
+        }, 2000);
     }
     
     // Flip a card
@@ -441,36 +464,33 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!gameStarted || !canFlip || card.classList.contains('flipped') || card.classList.contains('matched')) {
             return;
         }
-
+        
         // Flip the card
         card.classList.add('flipped');
         flippedCards.push(card);
-
+        
         // Check if two cards are flipped
         if (flippedCards.length === 2) {
             moves++;
             updateStats();
-
+            
             // Check for match
             const [card1, card2] = flippedCards;
             if (card1.dataset.name === card2.dataset.name) {
-                // Match found - keep cards flipped and mark as matched
+                // Match found
                 matches++;
-
-                // Add both 'flipped' and 'matched' classes to keep them showing the icon
-                card1.classList.add('matched');
-                card2.classList.add('matched');
-
-                // Make sure they stay flipped
-                card1.classList.add('flipped');
-                card2.classList.add('flipped');
-
-                flippedCards = [];
-
-                // Check for win
-                if (matches === totalPairs) {
-                    endGame();
-                }
+                
+                // Mark as matched after delay
+                setTimeout(() => {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    flippedCards = [];
+                    
+                    // Check for win
+                    if (matches === totalPairs) {
+                        endGame();
+                    }
+                }, 300);
             } else {
                 // No match - flip back after delay
                 canFlip = false;
@@ -488,17 +508,84 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateStats() {
         moveCount.textContent = moves;
         matchCount.textContent = matches;
-        timerDisplay.textContent = seconds + 's';
+    }
+    
+    // Load best scores from localStorage
+    function loadBestScores() {
+        const bestEasy = localStorage.getItem(STORAGE_KEYS.BEST_EASY);
+        const bestHard = localStorage.getItem(STORAGE_KEYS.BEST_HARD);
+        
+        if (bestEasy) {
+            bestEasyDisplay.textContent = bestEasy;
+        } else {
+            bestEasyDisplay.textContent = '--';
+        }
+        
+        if (bestHard) {
+            bestHardDisplay.textContent = bestHard;
+        } else {
+            bestHardDisplay.textContent = '--';
+        }
+    }
+    
+    // Save best score to localStorage
+    function saveBestScore(difficulty, score) {
+        const key = difficulty === 'easy' ? STORAGE_KEYS.BEST_EASY : STORAGE_KEYS.BEST_HARD;
+        const currentBest = localStorage.getItem(key);
+        
+        if (!currentBest || score < parseInt(currentBest)) {
+            localStorage.setItem(key, score.toString());
+            
+            // Update display
+            if (difficulty === 'easy') {
+                bestEasyDisplay.textContent = score;
+            } else {
+                bestHardDisplay.textContent = score;
+            }
+            
+            return true; // New best score
+        }
+        return false; // Not a new best
     }
     
     // End the game (win)
     function endGame() {
         clearInterval(timerInterval);
         
+        const difficulty = difficultySelect.value;
+        const finalTimeFormatted = formatTime(totalSeconds);
+        
+        // Save best score if applicable
+        const isNewBest = saveBestScore(difficulty, moves);
+        
         // Show win message
         finalMoves.textContent = moves;
-        finalTime.textContent = seconds;
+        finalTime.textContent = finalTimeFormatted;
+        
+        // Add special message for new best score
+        if (isNewBest) {
+            winMessage.innerHTML = `
+                <div class="alert alert-success">
+                    <h3><i class="bi bi-trophy-fill me-2"></i>New Best Score!</h3>
+                    <p>You've matched all pairs in <span id="final-moves">${moves}</span> moves and <span id="final-time">${finalTimeFormatted}</span>!</p>
+                    <p class="mb-0"><i class="bi bi-star-fill text-warning"></i> New record for ${difficulty} difficulty!</p>
+                    <button id="play-again" class="btn btn-success mt-3">Play Again</button>
+                </div>
+            `;
+        } else {
+            winMessage.innerHTML = `
+                <div class="alert alert-success">
+                    <h3><i class="bi bi-trophy-fill me-2"></i>Congratulations!</h3>
+                    <p>You've matched all pairs in <span id="final-moves">${moves}</span> moves and <span id="final-time">${finalTimeFormatted}</span>!</p>
+                    <button id="play-again" class="btn btn-success mt-2">Play Again</button>
+                </div>
+            `;
+        }
+        
         winMessage.style.display = 'block';
+        
+        // Update play again button event
+        document.getElementById('play-again').addEventListener('click', restartGame);
         
         // Scroll to win message
         winMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -514,8 +601,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function initMemoryGame() {
         startButton.addEventListener('click', startGame);
         restartButton.addEventListener('click', restartGame);
-        playAgainButton.addEventListener('click', restartGame);
         difficultySelect.addEventListener('change', initGame);
+        
+        // Load best scores from localStorage
+        loadBestScores();
         
         // Initialize game on page load
         initGame();
