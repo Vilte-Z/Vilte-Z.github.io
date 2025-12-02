@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // ===== Contact Form JavaScript =====
     // Form elements
     const contactForm = document.getElementById('contact-form');
     const formResults = document.getElementById('form-results');
@@ -269,8 +270,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
-    // Initialize event listeners
-    function init() {
+    // Initialize contact form event listeners
+    function initContactForm() {
         setupRealTimeValidation();
         
         // Check form validity on any input
@@ -283,6 +284,268 @@ document.addEventListener('DOMContentLoaded', function() {
         checkFormValidity();
     }
 
-    // Start the application
-    init();
+    // ===== Memory Game JavaScript =====
+    // Game variables
+    let gameStarted = false;
+    let moves = 0;
+    let matches = 0;
+    let totalPairs = 0;
+    let timerInterval = null;
+    let seconds = 0;
+    let flippedCards = [];
+    let canFlip = true;
+    
+    // Game elements
+    const difficultySelect = document.getElementById('difficulty');
+    const startButton = document.getElementById('start-game');
+    const restartButton = document.getElementById('restart-game');
+    const playAgainButton = document.getElementById('play-again');
+    const cardGrid = document.getElementById('card-grid');
+    const moveCount = document.getElementById('move-count');
+    const matchCount = document.getElementById('match-count');
+    const timerDisplay = document.getElementById('timer');
+    const winMessage = document.getElementById('win-message');
+    const finalMoves = document.getElementById('final-moves');
+    const finalTime = document.getElementById('final-time');
+    
+    // Card data - at least 6 unique items (using Font Awesome icons)
+    const cardData = [
+        { icon: 'bi bi-star-fill', name: 'star' },
+        { icon: 'bi bi-heart-fill', name: 'heart' },
+        { icon: 'bi bi-moon-fill', name: 'moon' },
+        { icon: 'bi bi-sun-fill', name: 'sun' },
+        { icon: 'bi bi-cloud-fill', name: 'cloud' },
+        { icon: 'bi bi-lightning-fill', name: 'lightning' },
+        { icon: 'bi bi-flower1', name: 'flower' },
+        { icon: 'bi bi-tree-fill', name: 'tree' },
+        { icon: 'bi bi-droplet-fill', name: 'droplet' },
+        { icon: 'bi bi-gem', name: 'gem' },
+        { icon: 'bi bi-rocket-takeoff-fill', name: 'rocket' },
+        { icon: 'bi bi-cup-hot-fill', name: 'cup' }
+    ];
+    
+    // Difficulty configurations
+    const difficultyConfigs = {
+        easy: { rows: 3, cols: 4, pairs: 6 },    // 4×3 grid (6 pairs from first 6 icons)
+        hard: { rows: 4, cols: 6, pairs: 12 }    // 6×4 grid (12 pairs - all icons)
+    };
+    
+    // Initialize game
+    function initGame() {
+        const difficulty = difficultySelect.value;
+        const config = difficultyConfigs[difficulty];
+        
+        // Clear the board
+        cardGrid.innerHTML = '';
+        cardGrid.className = 'card-grid ' + difficulty;
+        
+        // Reset game state
+        gameStarted = false;
+        moves = 0;
+        matches = 0;
+        totalPairs = config.pairs;
+        seconds = 0;
+        flippedCards = [];
+        canFlip = true;
+        
+        // Update UI
+        updateStats();
+        winMessage.style.display = 'none';
+        
+        // Stop timer if running
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+        
+        // Create card pairs
+        const selectedIcons = cardData.slice(0, config.pairs);
+        const cards = [...selectedIcons, ...selectedIcons]; // Duplicate for pairs
+        
+        // Shuffle cards
+        shuffleArray(cards);
+        
+        // Create card elements
+        cards.forEach((card, index) => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'memory-card';
+            cardElement.dataset.index = index;
+            cardElement.dataset.name = card.name;
+            
+            cardElement.innerHTML = `
+                <div class="card-front">
+                    <i class="${card.icon}"></i>
+                </div>
+                <div class="card-back">
+                    <i class="bi bi-question-lg"></i>
+                </div>
+            `;
+            
+            cardElement.addEventListener('click', () => flipCard(cardElement));
+            cardGrid.appendChild(cardElement);
+        });
+        
+        // Update button states
+        startButton.disabled = false;
+        restartButton.disabled = true;
+    }
+    
+    // Shuffle array using Fisher-Yates algorithm
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+    
+    // Start the game
+    function startGame() {
+        if (gameStarted) return;
+        
+        gameStarted = true;
+        moves = 0;
+        matches = 0;
+        seconds = 0;
+        flippedCards = [];
+        canFlip = true;
+        
+        // Start timer
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            seconds++;
+            timerDisplay.textContent = seconds + 's';
+        }, 1000);
+        
+        // Update UI
+        updateStats();
+        startButton.disabled = true;
+        restartButton.disabled = false;
+        
+        // Briefly show all cards then flip back
+        showAllCardsBriefly();
+    }
+    
+    // Show all cards briefly at game start
+    function showAllCardsBriefly() {
+        const allCards = document.querySelectorAll('.memory-card');
+        allCards.forEach(card => card.classList.add('flipped'));
+        
+        setTimeout(() => {
+            allCards.forEach(card => card.classList.remove('flipped'));
+        }, 2000); // Show for 2 seconds
+    }
+    
+    // Flip a card
+    function flipCard(card) {
+        if (!gameStarted || !canFlip || card.classList.contains('flipped') || card.classList.contains('matched')) {
+            return;
+        }
+
+        // Flip the card
+        card.classList.add('flipped');
+        flippedCards.push(card);
+
+        // Check if two cards are flipped
+        if (flippedCards.length === 2) {
+            moves++;
+            updateStats();
+
+            // Check for match
+            const [card1, card2] = flippedCards;
+            if (card1.dataset.name === card2.dataset.name) {
+                // Match found - keep cards flipped and mark as matched
+                matches++;
+
+                // Add both 'flipped' and 'matched' classes to keep them showing the icon
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+
+                // Make sure they stay flipped
+                card1.classList.add('flipped');
+                card2.classList.add('flipped');
+
+                flippedCards = [];
+
+                // Check for win
+                if (matches === totalPairs) {
+                    endGame();
+                }
+            } else {
+                // No match - flip back after delay
+                canFlip = false;
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                    canFlip = true;
+                }, 1000);
+            }
+        }
+    }
+    
+    // Update game statistics
+    function updateStats() {
+        moveCount.textContent = moves;
+        matchCount.textContent = matches;
+        timerDisplay.textContent = seconds + 's';
+    }
+    
+    // End the game (win)
+    function endGame() {
+        clearInterval(timerInterval);
+        
+        // Show win message
+        finalMoves.textContent = moves;
+        finalTime.textContent = seconds;
+        winMessage.style.display = 'block';
+        
+        // Scroll to win message
+        winMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Restart game
+    function restartGame() {
+        initGame();
+        startGame();
+    }
+    
+    // Initialize memory game event listeners
+    function initMemoryGame() {
+        startButton.addEventListener('click', startGame);
+        restartButton.addEventListener('click', restartGame);
+        playAgainButton.addEventListener('click', restartGame);
+        difficultySelect.addEventListener('change', initGame);
+        
+        // Initialize game on page load
+        initGame();
+    }
+    
+    // ===== Initialize Both Applications =====
+    initContactForm();
+    initMemoryGame();
+    
+    // Add event listener for mobile menu toggle if it exists
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    if (mobileNavToggle) {
+        mobileNavToggle.addEventListener('click', function() {
+            const navbarNav = document.querySelector('.navbar-nav');
+            navbarNav.classList.toggle('nav-active');
+            
+            // Create overlay
+            let overlay = document.querySelector('.nav-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'nav-overlay';
+                document.body.appendChild(overlay);
+            }
+            overlay.classList.toggle('active');
+            
+            // Close menu when clicking overlay
+            overlay.addEventListener('click', function() {
+                navbarNav.classList.remove('nav-active');
+                overlay.classList.remove('active');
+            });
+        });
+    }
 });

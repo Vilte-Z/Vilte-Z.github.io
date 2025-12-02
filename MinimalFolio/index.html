@@ -568,6 +568,113 @@
       </div>
     </div>
   </div>
+
+<!-- Memory Game Section -->
+<section id="memory-game" class="memory-game section light-background">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Memory Game</h2>
+    <p>Test your memory with this fun matching game!</p>
+  </div><!-- End Section Title -->
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    
+    <!-- Game Controls -->
+    <div class="game-controls mb-4">
+      <div class="row align-items-center justify-content-center g-3">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="difficulty" class="form-label">Difficulty Level</label>
+            <select id="difficulty" class="form-select">
+              <option value="easy">Easy (4×3)</option>
+              <option value="hard">Hard (6×4)</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="d-flex gap-2">
+            <button id="start-game" class="btn btn-primary flex-grow-1">
+              <i class="bi bi-play-fill"></i> Start Game
+            </button>
+            <button id="restart-game" class="btn btn-secondary" disabled>
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Stats -->
+    <div class="game-stats mb-4">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="stats-panel p-3 rounded">
+            <div class="row text-center">
+              <div class="col-6 col-md-4">
+                <div class="stat-item">
+                  <div class="stat-label">Moves</div>
+                  <div id="move-count" class="stat-value">0</div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="stat-item">
+                  <div class="stat-label">Matches</div>
+                  <div id="match-count" class="stat-value">0</div>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="stat-item">
+                  <div class="stat-label">Time</div>
+                  <div id="timer" class="stat-value">0s</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Board -->
+    <div class="game-board mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <div id="card-grid" class="card-grid mx-auto"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Win Message (Hidden by default) -->
+    <div id="win-message" class="win-message text-center mt-4" style="display: none;">
+      <div class="alert alert-success">
+        <h3><i class="bi bi-trophy-fill me-2"></i>Congratulations!</h3>
+        <p>You've matched all pairs in <span id="final-moves">0</span> moves and <span id="final-time">0</span> seconds!</p>
+        <button id="play-again" class="btn btn-success mt-2">Play Again</button>
+      </div>
+    </div>
+
+    <!-- Game Instructions -->
+    <div class="game-instructions mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">How to Play</h5>
+              <ul class="list-unstyled">
+                <li><i class="bi bi-1-circle me-2"></i>Select difficulty level</li>
+                <li><i class="bi bi-2-circle me-2"></i>Click Start Game to begin</li>
+                <li><i class="bi bi-3-circle me-2"></i>Flip two cards at a time to find matching pairs</li>
+                <li><i class="bi bi-4-circle me-2"></i>Match all pairs to win!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section><!-- /Memory Game Section -->
+
 </section><!-- /Contact Section -->
 
   <footer id="footer" class="footer">
