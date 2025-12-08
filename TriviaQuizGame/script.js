@@ -1,3 +1,118 @@
+const gifPopup = document.getElementById('gifPopup');
+const closeGifBtn = document.getElementById('closeGif');
+const resultGif = document.getElementById('resultGif');
+const gifTitle = document.getElementById('gifTitle');
+const gifMessage = document.getElementById('gifMessage');
+
+const gifsByScore = {
+  perfect: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXRlNW56YTM3NzZwb3o3OXQybHhodG55bzJwcWdkdDJ4d25pNXYzYiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/i79P9wUfnmPyo/giphy.gif',
+  good: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXRlNW56YTM3NzZwb3o3OXQybHhodG55bzJwcWdkdDJ4d25pNXYzYiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/G1vplGMypxBcp7kx32/giphy.gif',
+  average: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXRlNW56YTM3NzZwb3o3OXQybHhodG55bzJwcWdkdDJ4d25pNXYzYiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yBwcx562kZ2FWlYb2A/giphy.gif',
+  poor: 'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3NWc4YWZiZTJodm53c25jOGJpdXRyYmhsNGN2YWthZW82bHVwbzdhbyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ljtfkyTD3PIUZaKWRi/giphy.gif',
+  default: 'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3NWc4YWZiZTJodm53c25jOGJpdXRyYmhsNGN2YWthZW82bHVwbzdhbyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/D8xNev92dfqdG9FPx4/giphy.gif'
+};
+// Messages based on score
+const messagesByScore = {
+  perfect: "Perfect score! You're a genius! 🎯",
+  good: "Excellent work! You really know your stuff! 🌟",
+  average: "Good effort! Keep learning and improving! 📚",
+  poor: "Don't worry! Practice makes perfect! 💪"
+};
+
+// Function to create confetti effect
+function createConfetti() {
+  const colors = ['#C1121F', '#5A0D23', '#FFC4C4', '#38A169'];
+  
+  for (let i = 0; i < 150; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    
+    // Random position and size
+    const size = Math.random() * 10 + 5;
+    const left = Math.random() * 100;
+    const animationDuration = Math.random() * 3 + 2;
+    const delay = Math.random() * 2;
+    
+    confetti.style.width = `${size}px`;
+    confetti.style.height = `${size}px`;
+    confetti.style.left = `${left}vw`;
+    confetti.style.top = '-20px';
+    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animation = `confetti ${animationDuration}s ease-out ${delay}s forwards`;
+    
+    document.body.appendChild(confetti);
+    
+    // Remove confetti after animation
+    setTimeout(() => {
+      confetti.remove();
+    }, (animationDuration + delay) * 1000);
+  }
+}
+
+// Function to show GIF popup based on score
+function showGifPopup(score, totalQuestions) {
+  const percentage = (score / totalQuestions) * 100;
+  let gifCategory;
+  
+  if (percentage === 100) {
+    gifCategory = 'perfect';
+    gifTitle.textContent = "Perfect Score! 🎯";
+  } else if (percentage >= 80) {
+    gifCategory = 'good';
+    gifTitle.textContent = "Excellent! 🌟";
+  } else if (percentage >= 50) {
+    gifCategory = 'average';
+    gifTitle.textContent = "Good Job! 👍";
+  } else {
+    gifCategory = 'poor';
+    gifTitle.textContent = "Keep Trying! 💪";
+  }
+  
+  // Set GIF and message
+  resultGif.src = gifsByScore[gifCategory];
+  gifMessage.textContent = messagesByScore[gifCategory];
+  
+  // Show popup
+  gifPopup.style.display = 'flex';
+  
+  // Add confetti for good scores
+  if (percentage >= 80) {
+    createConfetti();
+  }
+  
+  // Prevent scrolling when popup is open
+  document.body.style.overflow = 'hidden';
+}
+
+// Function to close GIF popup
+function closeGifPopup() {
+  gifPopup.style.display = 'none';
+  document.body.style.overflow = 'auto';
+  
+  // Remove any remaining confetti
+  document.querySelectorAll('.confetti').forEach(confetti => {
+    confetti.remove();
+  });
+}
+
+// Event listeners
+closeGifBtn.addEventListener('click', closeGifPopup);
+
+// Close popup when clicking outside the content
+gifPopup.addEventListener('click', function(e) {
+  if (e.target === gifPopup) {
+    closeGifPopup();
+  }
+});
+
+// Close with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && gifPopup.style.display === 'flex') {
+    closeGifPopup();
+  }
+});
+
 // Quiz data - questions for each subject and difficulty
 const quizData = {
     math: {
