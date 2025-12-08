@@ -4,61 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trivia Quiz Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="quiz-container">
-        <div class="quiz-header">
-            <h1>Trivia Quiz Challenge</h1>
-            <p>Test your knowledge with these interesting questions!</p>
-        </div>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-brain"></i> Trivia Quiz Challenge</h1>
+            <p class="tagline">Test your knowledge across multiple subjects and difficulties!</p>
+        </header>
         
-        <div class="quiz-body">
-            <!-- Start Screen -->
-            <div id="start-screen" class="screen">
-                <div class="question-container">
-                    <p class="question-text">Welcome to the Trivia Quiz! You'll be presented with 10 questions on various topics. Try to answer as many as you can correctly. Good luck!</p>
-                </div>
-                <div class="navigation">
-                    <button id="start-btn">Start Quiz</button>
-                </div>
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen active-screen">
+            <h2>Welcome to Trivia Quiz!</h2>
+            <p>Please enter your name and select your preferences to begin.</p>
+            
+            <div class="form-group">
+                <label for="player-name">Your Name:</label>
+                <input type="text" id="player-name" placeholder="Enter your name" value="">
             </div>
             
-            <!-- Question Screen -->
-            <div id="question-screen" class="screen hidden">
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress" id="progress-bar"></div>
+            <div class="form-group">
+                <label>Select Subject:</label>
+                <div class="subject-options">
+                    <div class="option-btn" data-subject="math">
+                        <i class="fas fa-calculator subject-icon"></i>
+                        <div>Mathematics</div>
+                    </div>
+                    <div class="option-btn" data-subject="history">
+                        <i class="fas fa-landmark subject-icon"></i>
+                        <div>History</div>
+                    </div>
+                    <div class="option-btn" data-subject="geography">
+                        <i class="fas fa-globe-americas subject-icon"></i>
+                        <div>Geography</div>
+                    </div>
+                    <div class="option-btn" data-subject="music">
+                        <i class="fas fa-music subject-icon"></i>
+                        <div>Music</div>
                     </div>
                 </div>
-                
-                <div class="question-container">
-                    <div class="question-number">Question <span id="current-question">1</span> of 10</div>
-                    <div class="question-text" id="question-text">Question text goes here</div>
-                </div>
-                
-                <div class="options-container" id="options-container">
-                    <!-- Options will be inserted here by JavaScript -->
-                </div>
-                
-                <div class="feedback" id="feedback"></div>
-                
-                <div class="navigation">
-                    <button id="prev-btn" disabled>Previous</button>
-                    <button id="next-btn">Next Question</button>
+            </div>
+            
+            <div class="form-group">
+                <label>Select Difficulty:</label>
+                <div class="difficulty-options">
+                    <div class="option-btn" data-difficulty="easy">
+                        <div>Easy</div>
+                        <small>10 straightforward questions</small>
+                    </div>
+                    <div class="option-btn" data-difficulty="difficult">
+                        <div>Difficult</div>
+                        <small>10 challenging questions</small>
+                    </div>
                 </div>
             </div>
             
-            <!-- Results Screen -->
-            <div id="results-screen" class="screen hidden">
-                <div class="score-container">
-                    <h2>Quiz Completed!</h2>
-                    <p>Your final score: <span id="final-score">0</span> out of 10</p>
-                    <p id="performance-message">Performance message will appear here</p>
-                    <button id="restart-btn">Play Again</button>
+            <div class="btn-container">
+                <button id="start-btn" class="btn">Start Quiz</button>
+            </div>
+        </div>
+        
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-info">
+                <div class="info-item">
+                    <div class="info-label">Player</div>
+                    <div id="current-player" class="info-value">Player</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Subject</div>
+                    <div id="current-subject" class="info-value">Math</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Difficulty</div>
+                    <div id="current-difficulty" class="info-value">
+                        <span>Easy</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Score</div>
+                    <div id="current-score" class="info-value">0/10</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div id="question-counter">Question 1 of 10</div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div id="timer">Time: 60s</div>
+            </div>
+            
+            <div class="question-container">
+                <div id="question-text" class="question-text">Loading question...</div>
+                <div id="answer-options" class="answer-options">
+                    <!-- Answer buttons will be dynamically added here -->
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button id="next-btn" class="btn btn-secondary">Next Question</button>
+                <button id="restart-btn" class="btn">Restart Quiz</button>
+            </div>
+        </div>
+        
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="result-container">
+                <h2>Quiz Completed!</h2>
+                <div class="player-name" id="result-player">Player</div>
+                <div class="result-score" id="final-score">0/10</div>
+                <div class="result-message" id="result-message">Message based on performance</div>
+                
+                <div class="best-score">
+                    Your best score in <span id="best-subject">Math</span> (<span id="best-difficulty">Easy</span>): 
+                    <span id="best-score">0/10</span>
+                </div>
+                
+                <div class="btn-container">
+                    <button id="play-again-btn" class="btn">Play Again</button>
+                    <button id="new-quiz-btn" class="btn btn-secondary">New Quiz</button>
                 </div>
             </div>
         </div>
+        
+        <footer>
+            <p>Trivia Quiz Game &copy; 2025 | Best scores are saved in your browser's local storage</p>
+            <p>Try to beat your high score in each subject and difficulty!</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
