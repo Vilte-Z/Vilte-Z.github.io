@@ -13,10 +13,10 @@ const gifsByScore = {
 };
 // Messages based on score
 const messagesByScore = {
-  perfect: "Perfect score! You're a genius! 🎯",
-  good: "Excellent work! You really know your stuff! 🌟",
-  average: "Good effort! Keep learning and improving! 📚",
-  poor: "Don't worry! Practice makes perfect! 💪"
+  perfect: "Perfect score! You're a genius!",
+  good: "Excellent work! You really know your stuff!",
+  average: "Good effort! Keep learning and improving!",
+  poor: "Don't worry! Practice makes perfect!"
 };
 
 // Function to create confetti effect
@@ -51,27 +51,35 @@ function createConfetti() {
 }
 
 // Function to show GIF popup based on score
+// Add this to your JavaScript near the showGifPopup function
 function showGifPopup(score, totalQuestions) {
   const percentage = (score / totalQuestions) * 100;
   let gifCategory;
   
   if (percentage === 100) {
     gifCategory = 'perfect';
-    gifTitle.textContent = "Perfect Score! 🎯";
+    gifTitle.textContent = "Perfect Score!";
   } else if (percentage >= 80) {
     gifCategory = 'good';
-    gifTitle.textContent = "Excellent! 🌟";
+    gifTitle.textContent = "Excellent!";
   } else if (percentage >= 50) {
     gifCategory = 'average';
-    gifTitle.textContent = "Good Job! 👍";
+    gifTitle.textContent = "Good Job!";
   } else {
     gifCategory = 'poor';
-    gifTitle.textContent = "Keep Trying! 💪";
+    gifTitle.textContent = "Keep Trying!";
   }
   
   // Set GIF and message
-  resultGif.src = gifsByScore[gifCategory];
+  const gifUrl = gifsByScore[gifCategory];
+  resultGif.src = gifUrl;
   gifMessage.textContent = messagesByScore[gifCategory];
+  
+  // Add error handling in case GIF fails to load
+  resultGif.onerror = function() {
+    console.log("GIF failed to load, using fallback");
+    resultGif.src = gifsByScore['default'];
+  };
   
   // Show popup
   gifPopup.style.display = 'flex';
@@ -746,6 +754,7 @@ function nextQuestion() {
 }
 
 // Finish the quiz and show results
+// Finish the quiz and show results
 function finishQuiz() {
     // Stop timer
     clearInterval(timerInterval);
@@ -773,6 +782,11 @@ function finishQuiz() {
     
     // Switch to results screen
     switchScreen('results');
+    
+    // ADD THIS LINE: Show the GIF popup after a short delay
+    setTimeout(() => {
+        showGifPopup(score, questions.length);
+    }, 300); // 0.3 second delay so results screen loads first
 }
 
 // Restart the quiz with same settings
