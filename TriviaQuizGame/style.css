@@ -40,20 +40,20 @@ header {
 }
 
 h1 {
-    font-size: 2.8rem;
+    font-size: clamp(1.6rem, 5vw, 2.8rem);
     margin-bottom: 10px;
     color: #5A0D23;
     text-shadow: 0 2px 4px rgba(90, 13, 35, 0.2);
 }
 
 h2 {
-    font-size: 1.8rem;
+    font-size: clamp(1.3rem, 4.2vw, 1.8rem);
     margin-bottom: 20px;
     color: #5A0D23;
 }
 
 h3 {
-    font-size: 1.5rem;
+    font-size: clamp(1.1rem, 3.8vw, 1.5rem);
     margin-bottom: 15px;
     color: #5A0D23;
 }
@@ -432,6 +432,76 @@ footer {
     }
 }
 
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    header {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .screen {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+
+    .quiz-info {
+        flex-direction: column;
+        gap: 10px;
+        text-align: left;
+    }
+
+    .info-item {
+        width: 100%;
+    }
+
+    .progress-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .progress-bar {
+        width: 100%;
+        margin: 0;
+    }
+
+    .btn-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-container .btn {
+        width: 100%;
+    }
+
+    .subject-options,
+    .difficulty-options {
+        flex-direction: column;
+    }
+
+    .option-btn {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .gif-content {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .result-score {
+        font-size: 2.5rem;
+    }
+}
+
+
 /* GIF POPUP */
 .gif-popup {
     display: none;
@@ -625,4 +695,20 @@ footer {
     bottom: 0;
     left: 0;
     position: absolute;
+}
+
+.question-text,
+.answer-btn,
+.info-value,
+.tagline,
+#question-counter,
+#timer {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+.screen {
+    max-width: 100%;
+}
+.answer-btn {
+    width: 100%;
 }
