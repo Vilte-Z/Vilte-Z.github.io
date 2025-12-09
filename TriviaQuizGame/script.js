@@ -21,7 +21,7 @@ const messagesByScore = {
 
 // Function to create confetti effect
 function createConfetti() {
-  const colors = ['#C1121F', '#5A0D23', '#FFC4C4', '#38A169'];
+  const colors = ['#bd1924ff', '#5A0D23', '#FFC4C4', '#38A169'];
   
   for (let i = 0; i < 150; i++) {
     const confetti = document.createElement('div');
